@@ -8,6 +8,8 @@ Featues Implemented:
 * Swagger for API documentation
 * FluentValidation for input validation
 * CRUD operations for employees
+* Geniric repository pattern
+* Unit of Work pattern
+* Migrations with EF Core
+* Unit testing with xUnit
 * Pagination
-* Sorting
-* Filtering

@@ -4,6 +4,7 @@ using EmployeesManagement.Application.Validations;
 using EmployeesManagement.Infrastructure;
 using EmployeesManagement.Infrastructure.Data;
 using FluentValidation;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -13,11 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddMemoryCache();
-//builder.Services.AddControllers();
+builder.Services.AddControllers();
 
-builder.Services.AddControllers().AddJsonOptions(opt =>
+builder.Services.AddControllers()
+    .AddJsonOptions(opt =>
 {
-    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    opt.JsonSerializerOptions.ReferenceHandler = null;
+
+    //opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 });
 
 
@@ -79,8 +83,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     //// Add support for XML comments
-    //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    //options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 builder.Services.AddCors(options =>

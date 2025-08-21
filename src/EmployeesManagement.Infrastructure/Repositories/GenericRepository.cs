@@ -2,6 +2,7 @@
 using EmployeesManagement.Application.Interfaces;
 using EmployeesManagement.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Principal;
 
 namespace EmployeesManagement.Infrastructure.Repositories;
 
@@ -69,11 +70,19 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return response;
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    public async Task<BaseResponse> UpdateAsync(Guid id, T entity)
     {
         _context.Set<T>().Update(entity);
         await _context.SaveChangesAsync();
-        return entity;
+
+        BaseResponse response = new()
+        {
+            Success = true,
+            Message = "Item updated successfully.",
+            Data = entity
+        };
+
+        return response;
     }
 
     public async Task<BaseResponse> DeleteAsync(Guid id)

@@ -12,14 +12,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmployeesManagement.API.Controllers
 {
+    /// <summary>
+    /// Employees controller to manage employee records.
+    /// </summary>
     [AllowAnonymous]
     public class EmployeesController : BaseController
     {
+        /// <summary>
+        /// Employee validator to validate employee requests.
+        /// </summary>
         protected readonly IValidator<CreateEmployeeDto> _employeeValidator;
 
+        /// <summary>
+        /// EmployeesController constructor.
+        /// </summary>
+        /// <param name="unitOfWork"></param>
+        /// <param name="mapper"></param>
+        /// <param name="mediatR"></param>
+        /// <param name="employeeValidator"></param>
         public EmployeesController(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediatR, IValidator<CreateEmployeeDto> employeeValidator)
             : base(unitOfWork, mapper, mediatR)
         {
@@ -47,12 +61,12 @@ namespace EmployeesManagement.API.Controllers
         }
 
         /// <summary>
-        /// Get a employee by id.
+        /// Get employee by id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetEmployeeById(Guid id)
+        public async Task<IActionResult> GetEmployeeById([Required] Guid id)
         {
             try
             {
@@ -83,10 +97,10 @@ namespace EmployeesManagement.API.Controllers
         /// <summary>
         /// Add a new employee.
         /// </summary>
-        /// <param name="bookDto"></param>
+        /// <param name="employeeDto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddNewBook([FromBody] CreateEmployeeDto employeeDto)
+        public async Task<IActionResult> AddEmployee([FromBody] CreateEmployeeDto employeeDto)
         {
             try
             {
@@ -104,9 +118,44 @@ namespace EmployeesManagement.API.Controllers
 
                 return CreatedAtAction(nameof(GetEmployeeById), new { id = employee!.ID }, result);       
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
-                return BadRequest(new { Message = ex.Message, Details = ex.InnerException?.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An unexpected error occurred.", Details = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Edit employee by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="employeeDto"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateEmployee(Guid id, [FromBody] CreateEmployeeDto employeeDto)
+        {
+            try
+            {
+                var employeeValidator = await _employeeValidator.ValidateAsync(employeeDto);
+             
+                if (!employeeValidator.IsValid)
+                {
+                    employeeValidator.AddToModelState(ModelState);
+                    return BadRequest(ModelState);
+                
+                }
+                
+                var result = await _mediatR.Send(new UpdateEmployeeCommand(id, employeeDto));
+                
+                if (result.Data is null)
+                {
+                    return NotFound(new { Message = "Employee not found." });
+                
+                }
+                return Ok(result);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { Message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -115,7 +164,7 @@ namespace EmployeesManagement.API.Controllers
         }
 
         /// <summary>
-        /// Delete an employee by id.
+        /// Delete employee by id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EmployeesManagement.Domain.Common;
 
@@ -11,6 +12,7 @@ public class BaseEntity
     private readonly List<BaseEvent> _domainEvents = new();
 
     [NotMapped]
+    [JsonIgnore]
     public IReadOnlyCollection<object> DomainEvents => _domainEvents.AsReadOnly();
 
     public void AddDomainEvent(BaseEvent domainEvent)
