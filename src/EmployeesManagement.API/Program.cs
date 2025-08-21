@@ -1,20 +1,36 @@
 using EmployeesManagement.API.Midlewares;
+using EmployeesManagement.Application.Helpers;
+using EmployeesManagement.Application.Validations;
+using EmployeesManagement.Infrastructure;
+using EmployeesManagement.Infrastructure.Data;
+using FluentValidation;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddMemoryCache();
+//builder.Services.AddControllers();
+
+builder.Services.AddControllers().AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
+
+
+builder.Services.AddValidatorsFromAssemblyContaining<EmployeeValidator>();
+
+// Registering Infrastructure services
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddOpenApi();
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register the Swagger generator, defining 1 or more Swagger documents
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -76,25 +92,42 @@ builder.Services.AddCors(options =>
     );
 });
 
+// Register MediatR services
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()); // Current project
+    cfg.RegisterServicesFromAssembly(typeof(MediatREntryPoint).Assembly); // Application project assembly
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsProduction())
 {
-    app.MapOpenApi();
+    
 }
 
 if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 {
+    app.MapOpenApi();
+
+    // Enable middleware to serve generated Swagger as a JSON endpoint.
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeesManagement API V1");
     });
+
+    // enable developer exception page
+    app.UseDeveloperExceptionPage();
+
+    // seed data
+    DBInitializer.SeedDataAsync(app);
 }
 
 // exception handling
 app.UseMiddleware<ExceptionsMiddleware>();
+//app.UseMiddleware<OtherCustomMidlewares>();
 
 // static files
 app.UseStaticFiles();
@@ -106,6 +139,7 @@ app.UseCors("CORSPolicy");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

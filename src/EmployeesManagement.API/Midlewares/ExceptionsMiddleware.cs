@@ -21,10 +21,12 @@ public class ExceptionsMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         
+        await _next(context);
     }
 
     private bool IsRequestAllowed(HttpContext context)
     {
+        
         
         return true;
     }

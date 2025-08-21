@@ -1,0 +1,6 @@
+﻿using EmployeesManagement.Application.Helpers;
+using MediatR;
+
+namespace EmployeesManagement.Application.Commands.Employees;
+
+public record DeleteEmployeeCommand(Guid Id) : IRequest<BaseResponse>;

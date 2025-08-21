@@ -16,9 +16,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
+		.editorconfig = .editorconfig
 		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C314512E-386E-43FE-8EF1-70495BAF6E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeesManagement.UnitTests", "tests\EmployeesManagement.UnitTests\EmployeesManagement.UnitTests.csproj", "{2B11913D-9573-49B8-A48C-E5B2989C43E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +47,10 @@ Global
 		{F93BDCA2-2223-4C70-AE22-2B6813D723D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F93BDCA2-2223-4C70-AE22-2B6813D723D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F93BDCA2-2223-4C70-AE22-2B6813D723D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B11913D-9573-49B8-A48C-E5B2989C43E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B11913D-9573-49B8-A48C-E5B2989C43E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B11913D-9573-49B8-A48C-E5B2989C43E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B11913D-9573-49B8-A48C-E5B2989C43E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +60,7 @@ Global
 		{D4C33547-BCED-4DCC-AEAA-3E315AE9AAF2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{8F3966CD-D72E-4BBE-9294-B3581DA82A80} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F93BDCA2-2223-4C70-AE22-2B6813D723D5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2B11913D-9573-49B8-A48C-E5B2989C43E5} = {C314512E-386E-43FE-8EF1-70495BAF6E51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B805CCD-D30C-4AA2-A853-198E162CB8F0}

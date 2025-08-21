@@ -5,4 +5,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="MediatR" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+	</ItemGroup>
+	
+<ItemGroup>
+  <Folder Include="Commands\Departments\" />
+  <Folder Include="Queries\Departments\" />
+</ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\EmployeesManagement.Domain\EmployeesManagement.Domain.csproj" />
+</ItemGroup>
+
 </Project>

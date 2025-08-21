@@ -9,6 +9,8 @@
     <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi " />
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
 	<PackageReference Include="MediatR" />
@@ -27,5 +29,9 @@
   </ItemGroup>
 <ItemGroup>
   <Folder Include="wwwroot\" />
+</ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\EmployeesManagement.Application\EmployeesManagement.Application.csproj" />
+  <ProjectReference Include="..\EmployeesManagement.Infrastructure\EmployeesManagement.Infrastructure.csproj" />
 </ItemGroup>
 </Project>

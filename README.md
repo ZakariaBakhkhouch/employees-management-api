@@ -8,3 +8,6 @@ Featues Implemented:
 * Swagger for API documentation
 * FluentValidation for input validation
 * CRUD operations for employees
+* Pagination
+* Sorting
+* Filtering
