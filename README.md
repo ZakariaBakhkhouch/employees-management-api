@@ -48,7 +48,6 @@ Environment variables for SQL Server are defined in `docker-compose.yml`:
 SA_PASSWORD: "Your_password123"
 ACCEPT_EULA: "Y"
 ```
-
 Update the connection string in the `.NET API` accordingly:
 
 ```json
@@ -56,3 +55,9 @@ Update the connection string in the `.NET API` accordingly:
   "DefaultConnection": "Server=sqlserver;Database=MyAppDb;User=sa;Password=Your_password123;"
 }
 ```
+
+### 4. Frontend app
+
+The frontend is in this repo, it was built using Angular
+
+- [frontend](https://github.com/ZakariaBakhkhouch/employees-management-client)
