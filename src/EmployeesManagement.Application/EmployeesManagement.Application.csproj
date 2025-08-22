@@ -12,11 +12,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" />
 	</ItemGroup>
-	
-<ItemGroup>
-  <Folder Include="Commands\Departments\" />
-  <Folder Include="Queries\Departments\" />
-</ItemGroup>
 <ItemGroup>
   <ProjectReference Include="..\EmployeesManagement.Domain\EmployeesManagement.Domain.csproj" />
 </ItemGroup>
