@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿global using EmployeesManagement.Application.DTOs;
+global using EmployeesManagement.Application.Helpers;
+global using MediatR;
 
-namespace EmployeesManagement.Application
-{
-    internal class GlobalUsings
-    {
-    }
-}
+global using EmployeesManagement.Application.Interfaces;
+global using EmployeesManagement.Domain.Entities;
+global using EmployeesManagement.Domain.Events;
+
+global using AutoMapper;
+ 
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Logging;

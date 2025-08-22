@@ -164,6 +164,16 @@ namespace EmployeesManagement.UnitTests
             return Task.FromResult(exists);
         }
 
+        public Task<BaseResponse> DeleteAllRecords()
+        {
+            _employees.Clear();
+            return Task.FromResult(new BaseResponse
+            {
+                Success = true,
+                Message = "All employee records deleted successfully."
+            });
+        }
+
         //Task<BaseResponse> IGenericRepository<Employee>.UpdateAsync(Employee entity)
         //{
         //    throw new NotImplementedException();

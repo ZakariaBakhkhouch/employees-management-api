@@ -1,9 +1,6 @@
 ﻿using EmployeesManagement.Application.Identity;
 using EmployeesManagement.Domain.Common;
-using EmployeesManagement.Domain.Entities;
-using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 
 namespace EmployeesManagement.Infrastructure.Data
 {

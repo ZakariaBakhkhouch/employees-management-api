@@ -1,7 +1,4 @@
-﻿using EmployeesManagement.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+﻿
 namespace EmployeesManagement.Infrastructure.Configurations;
 
 public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>

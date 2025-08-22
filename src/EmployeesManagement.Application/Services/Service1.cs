@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeesManagement.Application.Services
 {
-    internal class Class1
+    internal class Service1
     {
     }
 }

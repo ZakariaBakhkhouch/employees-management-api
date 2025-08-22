@@ -1,9 +1,4 @@
-﻿using EmployeesManagement.Application.Helpers;
-using EmployeesManagement.Application.Interfaces;
-using EmployeesManagement.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Principal;
-
+﻿
 namespace EmployeesManagement.Infrastructure.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -72,7 +67,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public async Task<BaseResponse> UpdateAsync(Guid id, T entity)
     {
-        _context.Set<T>().Update(entity);
+        _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
 
         BaseResponse response = new()
@@ -112,5 +107,28 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public async Task<bool> ExistsAsync(int id)
     {
         return await _context.Set<T>().FindAsync(id) != null;
+    }
+
+    public async Task<BaseResponse> DeleteAllRecords()
+    {
+        var totalItems = await _context.Set<T>().ToListAsync();
+
+        if (totalItems == null || !totalItems.Any())
+        {
+            return new BaseResponse
+            {
+                Success = false,
+                Message = "No items found to delete."
+            };
+        }
+
+        _context.Set<T>().RemoveRange(totalItems);
+        await _context.SaveChangesAsync();
+
+        return new BaseResponse
+        {
+            Success = true,
+            Message = "All items deleted successfully."
+        };
     }
 }

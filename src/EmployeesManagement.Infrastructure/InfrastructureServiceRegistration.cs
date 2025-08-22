@@ -1,20 +1,8 @@
 ﻿using EmployeesManagement.Application.Identity;
-using EmployeesManagement.Application.Interfaces;
-using EmployeesManagement.Infrastructure.Data;
-using EmployeesManagement.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EmployeesManagement.Infrastructure.Repositories;
 
 namespace EmployeesManagement.Infrastructure;
 

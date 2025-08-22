@@ -1,37 +1,26 @@
-﻿using AutoMapper;
-using EmployeesManagement.Application.Helpers;
-using EmployeesManagement.Application.Interfaces;
-using EmployeesManagement.Domain.Entities;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace EmployeesManagement.Application.Queries.Employees.Handlers;
 
-namespace EmployeesManagement.Application.Queries.Employees.Handlers
+public class GetEmployeesListQueryHandler : IRequestHandler<GetEmployeesListQuery, BaseResponse>
 {
-    public class GetEmployeesListQueryHandler : IRequestHandler<GetEmployeesListQuery, BaseResponse>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public GetEmployeesListQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        _mapper = mapper;
+        _unitOfWork = unitOfWork;
+    }
 
-        public GetEmployeesListQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
+    public async Task<BaseResponse> Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
+            return await _unitOfWork.Employees.GetAllAsync(request.PageNumber, request.PageSize);
         }
-
-        public async Task<BaseResponse> Handle(GetEmployeesListQuery request, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                return await _unitOfWork.Employees.GetAllAsync(request.PageNumber, request.PageSize);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            throw new Exception(ex.Message);
         }
     }
 }

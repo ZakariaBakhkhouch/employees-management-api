@@ -1,17 +1,4 @@
-﻿using AutoMapper;
-using EmployeesManagement.Application.Commands.Employees;
-using EmployeesManagement.Application.Helpers;
-using EmployeesManagement.Application.Interfaces;
-using EmployeesManagement.Domain.Entities;
-using EmployeesManagement.Domain.Events;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace EmployeesManagement.Application.Commands.Employees.Handlers;
 
 public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, BaseResponse>
@@ -29,24 +16,41 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
     {
         try
         {
-            var employee = _mapper.Map<Employee>(request.EmployeeDto);
+            var employee = await _unitOfWork.Employees.GetByIdAsync(request.id);
 
-            return await _unitOfWork.Employees.UpdateAsync(request.id, employee);
+            if (employee.Data == null)
+            {
+                return new BaseResponse
+                {
+                    Success = false,
+                    Message = $"Employee with id {request.id} not found."
+                };
+            }
+
+            var _employee = employee.Data as Employee;
+
+            _employee.FirstName = request.EmployeeDto.FirstName;
+            _employee.LastName = request.EmployeeDto.LastName;
+            _employee.Email = request.EmployeeDto.Email;
+            _employee.PhoneNumber = request.EmployeeDto.PhoneNumber;
+            _employee.DateOfBirth = request.EmployeeDto.DateOfBirth;
+            _employee.HireDate = request.EmployeeDto.HireDate;
+            _employee.Salary = request.EmployeeDto.Salary;
+            _employee.Position = request.EmployeeDto.Position;
+            _employee.DepartmentId = request.EmployeeDto.DepartmentId;
+
+            return await _unitOfWork.Employees.UpdateAsync(request.id, _employee);
         }
         catch (DbUpdateException dbEx)
         {
-            // Handle database update-related exceptions
-            // e.g., constraint violations, concurrency issues
             throw new ApplicationException("An error occurred while adding the book to the database.", dbEx);
         }
         catch (ArgumentNullException argEx)
         {
-            // Handle null argument exceptions
             throw new ArgumentException("A required parameter is missing or invalid.", argEx);
         }
         catch (Exception ex)
         {
-            // Handle unexpected exceptions
             throw new ApplicationException("An unexpected error occurred while processing your request.", ex);
         }
     }

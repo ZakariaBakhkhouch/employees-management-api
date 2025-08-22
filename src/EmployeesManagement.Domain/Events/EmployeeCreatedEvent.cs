@@ -1,5 +1,4 @@
-﻿using EmployeesManagement.Domain.Common;
-using EmployeesManagement.Domain.Entities;
+﻿using EmployeesManagement.Domain.Entities;
 
 namespace EmployeesManagement.Domain.Events
 {

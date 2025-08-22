@@ -1,7 +1,4 @@
 ﻿
-
-using EmployeesManagement.Domain.Common;
-
 namespace EmployeesManagement.Domain.Entities;
 
 public class Employee : BaseEntity

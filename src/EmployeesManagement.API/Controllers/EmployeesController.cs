@@ -182,9 +182,25 @@ namespace EmployeesManagement.API.Controllers
 
                 return Ok(result);
             }
-            catch (KeyNotFoundException ex)
+            catch (Exception ex)
             {
-                return NotFound(new { Message = ex.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "An unexpected error occurred.", Details = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Delete all employees.
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAllEmployees()
+        {
+            try
+            {
+                var response = await _mediatR.Send(new DeleteAllEmployeesCommand());    
+                
+                return Ok(response);
+
             }
             catch (Exception ex)
             {

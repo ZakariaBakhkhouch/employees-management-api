@@ -1,31 +1,23 @@
-﻿using EmployeesManagement.Application.Interfaces;
-using EmployeesManagement.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace EmployeesManagement.Infrastructure.Repositories;
 
-namespace EmployeesManagement.Infrastructure.Repositories
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApplicationDbContext _context;
+
+    public IEmployeesRepository Employees { get; }
+    public IDepartmentRepository Departments { get; }
+
+    public UnitOfWork(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
 
-        public IEmployeesRepository Employees { get; }
-        public IDepartmentRepository Departments { get; }
+        Employees = new EmployeesRepository(_context);
+        Departments = new DepartmentsRepository(_context);
+    }
 
-        public UnitOfWork(ApplicationDbContext context)
-        {
-            _context = context;
-
-            Employees = new EmployeesRepository(_context);
-            Departments = new DepartmentsRepository(_context);
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+    public void Dispose()
+    {
+        _context.Dispose();
     }
 }

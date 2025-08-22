@@ -1,36 +1,26 @@
-﻿using AutoMapper;
-using EmployeesManagement.Application.Helpers;
-using EmployeesManagement.Application.Interfaces;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+namespace EmployeesManagement.Application.Queries.Employees.Handlers;
 
-namespace EmployeesManagement.Application.Queries.Employees.Handlers
+public class GetEmployeeByIdQueryHandler : IRequestHandler<GetEmployeeByIdQuery, BaseResponse>
 {
-    public class GetEmployeeByIdQueryHandler : IRequestHandler<GetEmployeeByIdQuery, BaseResponse>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
+
+    public GetEmployeeByIdQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        _mapper = mapper;
+        _unitOfWork = unitOfWork;
+    }
 
-        public GetEmployeeByIdQueryHandler(IMapper mapper, IUnitOfWork unitOfWork)
+    public async Task<BaseResponse> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
+            return await _unitOfWork.Employees.GetByIdAsync(request.id);
         }
-
-        public async Task<BaseResponse> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            try
-            {
-                return await _unitOfWork.Employees.GetByIdAsync(request.id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            throw new Exception(ex.Message);
         }
     }
 }

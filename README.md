@@ -3,6 +3,7 @@
 Featues Implemented:
 
 * Clean architecture
+* DDD principles
 * CQRS pattern
 * MediatR for command and query handling
 * Swagger for API documentation
