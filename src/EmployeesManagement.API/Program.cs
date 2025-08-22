@@ -4,8 +4,10 @@ using EmployeesManagement.Application.Validations;
 using EmployeesManagement.Infrastructure;
 using EmployeesManagement.Infrastructure.Data;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Reflection;
 using System.Text.Json.Serialization;
 
@@ -104,6 +106,13 @@ builder.Services.AddMediatR(cfg =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    //db.Database.EnsureCreated(); // or
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsProduction())

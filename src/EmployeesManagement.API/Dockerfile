@@ -4,17 +4,20 @@
 # For more information, please see https://aka.ms/containercompat
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-nanoserver-1809 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0-nanoserver-1809 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/EmployeesManagement.API/EmployeesManagement.API.csproj", "src/EmployeesManagement.API/"]
+COPY ["src/EmployeesManagement.Domain/EmployeesManagement.Domain.csproj", "src/EmployeesManagement.Domain/"]
+COPY ["src/EmployeesManagement.Application/EmployeesManagement.Application.csproj", "src/EmployeesManagement.Application/"]
+COPY ["src/EmployeesManagement.Infrastructure/EmployeesManagement.Infrastructure.csproj", "src/EmployeesManagement.Infrastructure/"]
 RUN dotnet restore "./src/EmployeesManagement.API/EmployeesManagement.API.csproj"
 COPY . .
 WORKDIR "/src/src/EmployeesManagement.API"
