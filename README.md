@@ -7,6 +7,7 @@ This repo includes:
 * Clean Architecture with DDD principles
 * CQRS pattern
 * MediatR for command and query handling
+* Domain events
 * Swagger for API documentation
 * FluentValidation for input validation
 * CRUD operations for employees
