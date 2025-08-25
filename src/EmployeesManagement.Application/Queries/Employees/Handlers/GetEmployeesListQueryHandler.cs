@@ -16,11 +16,19 @@ public class GetEmployeesListQueryHandler : IRequestHandler<GetEmployeesListQuer
     {
         try
         {
-            return await _unitOfWork.Employees.GetAllAsync(request.PageNumber, request.PageSize);
+            return await _unitOfWork.Employees.GetAllAsync(request.PageNumber, request.PageSize, x => x.Department);
+        }
+        catch (DbUpdateException dbEx)
+        {
+            throw new ApplicationException("An error occurred while getting the list of employees from the database.", dbEx);
+        }
+        catch (ArgumentNullException argEx)
+        {
+            throw new ArgumentException("A required parameter is missing or invalid.", argEx);
         }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            throw new ApplicationException("An unexpected error occurred while processing your request.", ex);
         }
     }
 }

@@ -4,6 +4,7 @@ using EmployeesManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -172,6 +173,11 @@ namespace EmployeesManagement.UnitTests
                 Success = true,
                 Message = "All employee records deleted successfully."
             });
+        }
+
+        public Task<BaseResponse> GetAllAsync(int pageNumber, int pageSize, params Expression<Func<Employee, object>>[] includes)
+        {
+            throw new NotImplementedException();
         }
 
         //Task<BaseResponse> IGenericRepository<Employee>.UpdateAsync(Employee entity)

@@ -1,4 +1,6 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace EmployeesManagement.Infrastructure.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : class
@@ -19,6 +21,34 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             .Take(pageSize)
             .AsNoTracking()
             .ToListAsync();
+
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        BaseResponse response = new()
+        {
+            Message = "List of items.",
+            Data = new PaginatedResponse<T>(entities, pageNumber, pageSize, totalItems)
+        };
+
+        return response;
+    }
+
+    public async Task<BaseResponse> GetAllAsync(int pageNumber, int pageSize, params Expression<Func<T, object>>[] includes)
+    {
+        var totalItems = await _context.Set<T>().CountAsync();
+
+        var query = _context.Set<T>()
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .AsNoTracking()
+            .AsQueryable();
+
+        foreach(var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        var entities = query.ToList();
 
         var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
@@ -131,4 +161,5 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
             Message = "All items deleted successfully."
         };
     }
+
 }

@@ -1,9 +1,12 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace EmployeesManagement.Application.Interfaces;
 
 public interface IGenericRepository<T> where T : class
 {
     Task<BaseResponse> GetAllAsync(int pageNumber, int pageSize);
+    Task<BaseResponse> GetAllAsync(int pageNumber, int pageSize, params Expression<Func<T, object>>[] includes);
     Task<BaseResponse> GetByIdAsync(Guid id);
     Task<BaseResponse> AddAsync(T entity);
     Task<BaseResponse> UpdateAsync(Guid id, T entity);

@@ -27,7 +27,7 @@ public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeComman
 
         catch (DbUpdateException dbEx)
         {
-            throw new ApplicationException("An error occurred while adding the book to the database.", dbEx);
+            throw new ApplicationException("An error occurred while adding the employee to the database.", dbEx);
         }
         catch (ArgumentNullException argEx)
         {

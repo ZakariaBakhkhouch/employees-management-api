@@ -43,7 +43,7 @@ public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeComman
         }
         catch (DbUpdateException dbEx)
         {
-            throw new ApplicationException("An error occurred while adding the book to the database.", dbEx);
+            throw new ApplicationException("An error occurred while updating theemployee in the database.", dbEx);
         }
         catch (ArgumentNullException argEx)
         {

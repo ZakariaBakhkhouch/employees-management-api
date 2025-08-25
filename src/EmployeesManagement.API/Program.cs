@@ -21,9 +21,9 @@ builder.Services.AddControllers();
 builder.Services.AddControllers()
     .AddJsonOptions(opt =>
 {
-    opt.JsonSerializerOptions.ReferenceHandler = null;
+    //opt.JsonSerializerOptions.ReferenceHandler = null;
 
-    //opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 
